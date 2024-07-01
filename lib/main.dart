@@ -20,10 +20,9 @@ class TutorMeUpApp extends StatelessWidget {
       routes: {
         '/inicioSesion': (context) => PantallaInicioSesion(),
         '/registrarse': (context) => PantallaRegistrarse(),
-        '/home': (context) => TutorMeUpApp(),
-        '/inicio': (context) => InicioApp(),
-        '/tutorias': (context) => TutoriasScreen(),
-        '/agenda': (context) => AgendaScreen(),
+        '/inicio': (context) => InicioApp(userId: 1), // Placeholder for userId
+        '/tutorias': (context) => InterfazTutorias(userId: 1), // Placeholder for userId
+        '/agenda': (context) => AgendaScreen(), // Placeholder for userId
       },
     );
   }

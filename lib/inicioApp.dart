@@ -1,6 +1,12 @@
+// inicioApp.dart
 import 'package:flutter/material.dart';
+import 'interfazTutorias.dart';
 
 class InicioApp extends StatelessWidget {
+  final int userId;
+
+  InicioApp({required this.userId});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,20 +20,24 @@ class InicioApp extends StatelessWidget {
           crossAxisSpacing: 10.0,
           mainAxisSpacing: 10.0,
           children: <Widget>[
-            _buildGridButton(context, 'Tutorias', Icons.school, '/tutorias'),
-            _buildGridButton(context, 'Mi Agenda', Icons.calendar_today, '/agenda'),
-            // Agrega más botones aquí si es necesario
+            _buildGridButton(context, 'Tutorias', Icons.school, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => InterfazTutorias(userId: userId)),
+              );
+            }),
+            _buildGridButton(context, 'Mi Agenda', Icons.calendar_today, () {
+              // Add navigation logic for 'Mi Agenda'
+            }),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildGridButton(BuildContext context, String title, IconData icon, String route) {
+  Widget _buildGridButton(BuildContext context, String title, IconData icon, VoidCallback onTap) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, route);
-      },
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.blue[800], // Azul rey

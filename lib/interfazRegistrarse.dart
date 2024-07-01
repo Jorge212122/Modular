@@ -20,7 +20,7 @@ class _PantallaRegistrarseState extends State<PantallaRegistrarse> {
     );
 
     if (response.body == 'New record created successfully') {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/inicio');
     } else {
       print('Error: ${response.body}');
     }

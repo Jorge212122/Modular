@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'inicioApp.dart';
 
 class PantallaInicioSesion extends StatefulWidget {
   @override
@@ -10,7 +12,8 @@ class _PantallaInicioSesionState extends State<PantallaInicioSesion> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> _signIn() async {
+Future<void> _signIn() async {
+  try {
     final response = await http.post(
       Uri.parse('http://localhost/tutormeup/login.php'),
       body: {
@@ -19,30 +22,64 @@ class _PantallaInicioSesionState extends State<PantallaInicioSesion> {
       },
     );
 
-    if (response.body == 'Login successful') {
-      Navigator.pushReplacementNamed(context, '/inicio');
-    } else {
-      _showErrorDialog(context, 'Error: ${response.body}');
-    }
-  }
+    print('Response body: ${response.body}'); // Añadir esta línea para ver la respuesta en la consola
 
-  void _showErrorDialog(BuildContext context, String message) {
+    if (response.body.isNotEmpty) {
+      final responseData = json.decode(response.body);
+
+      if (responseData['status'] == 'Login successful') {
+        final userId = responseData['user_id'];
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => InicioApp(userId: userId)),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Error'),
+            content: Text('Correo o contraseña incorrectos.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('Respuesta del servidor vacía.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  } catch (e) {
+    print('Error: $e');
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('Login Failed'),
-        content: Text(message),
-        actions: <Widget>[
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text('Ocurrió un error al intentar iniciar sesión.'),
+        actions: [
           TextButton(
-            child: Text('Okay'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('OK'),
           ),
         ],
       ),
     );
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -57,38 +94,26 @@ class _PantallaInicioSesionState extends State<PantallaInicioSesion> {
           ),
           // Contenido encima de la imagen
           Column(
-            children: <Widget>[
-              // AppBar transparente
+            children: [
               AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
               ),
-              // Contenido principal
               Expanded(
                 child: Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(height: 150), // Espacio ajustado
-                        Center(
-                          child: Text(
-                            'Log In',
-                            style: TextStyle(
-                              fontSize: 40.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue[800], // Color del texto
-                            ),
-                            textAlign: TextAlign.center,
+                        Text(
+                          'Log In',
+                          style: TextStyle(
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue[800], // Color del texto
                           ),
+                          textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 20),
                         TextField(
@@ -110,14 +135,12 @@ class _PantallaInicioSesionState extends State<PantallaInicioSesion> {
                           ),
                         ),
                         SizedBox(height: 50),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: _signIn,
-                            child: Text('Iniciar Sesión'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue[800], // Color del botón
-                              foregroundColor: Colors.white, // Color del texto del botón
-                            ),
+                        ElevatedButton(
+                          onPressed: _signIn,
+                          child: Text('Iniciar Sesión'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[800], // Color del botón
+                            foregroundColor: Colors.white, // Color del texto del botón
                           ),
                         ),
                       ],
