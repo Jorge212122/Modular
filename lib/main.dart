@@ -22,7 +22,7 @@ class TutorMeUpApp extends StatelessWidget {
         '/registrarse': (context) => PantallaRegistrarse(),
         '/inicio': (context) => InicioApp(userId: 1), // Placeholder for userId
         '/tutorias': (context) => InterfazTutorias(userId: 1), // Placeholder for userId
-        '/agenda': (context) => AgendaScreen(), // Placeholder for userId
+        '/agenda': (context) => AgendaScreen(userId: 1), // Placeholder for userId
       },
     );
   }

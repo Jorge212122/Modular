@@ -1,6 +1,7 @@
 // inicioApp.dart
 import 'package:flutter/material.dart';
 import 'interfazTutorias.dart';
+import 'interfazAgenda.dart'; 
 
 class InicioApp extends StatelessWidget {
   final int userId;
@@ -20,14 +21,29 @@ class InicioApp extends StatelessWidget {
           crossAxisSpacing: 10.0,
           mainAxisSpacing: 10.0,
           children: <Widget>[
-            _buildGridButton(context, 'Tutorias', Icons.school, () {
+            _buildGridButton(context, 'Tutorias Disponibles', Icons.school, () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => InterfazTutorias(userId: userId)),
               );
             }),
             _buildGridButton(context, 'Mi Agenda', Icons.calendar_today, () {
-              // Add navigation logic for 'Mi Agenda'
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AgendaScreen(userId: userId)),
+              );
+            }),
+            _buildGridButton(context, 'Solicitudes Pendientes', Icons.safety_divider, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AgendaScreen(userId: userId)),
+              );
+            }),
+            _buildGridButton(context, 'Mis Tutorias', Icons.book, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AgendaScreen(userId: userId)),
+              );
             }),
           ],
         ),

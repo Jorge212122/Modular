@@ -75,7 +75,7 @@ class _InterfazTutoriasState extends State<InterfazTutorias> {
               onPressed: () {
                 _showRegisterDialog();
               },
-              child: Text('Registrar Tutoria'),
+              child: Text('Publicar Tutoria'),
             ),
           ),
         ],
