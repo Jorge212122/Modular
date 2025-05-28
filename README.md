@@ -35,7 +35,9 @@ Tutor Me Up permite a los usuarios participar como **estudiantes** que buscan tu
 
 ## 📸 Capturas de pantalla
 
-> 
+> ![flutter_02](https://github.com/user-attachments/assets/f12128da-c7a6-4fdc-9493-183bea37ff05)
+![flutter_03](https://github.com/user-attachments/assets/4f9f4c5d-8bdf-4596-acd5-ffe1f528a1a3)
+
 
 
 ## 🚧 Estado del proyecto
